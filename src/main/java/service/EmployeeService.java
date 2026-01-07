@@ -46,20 +46,24 @@ public class EmployeeService {
     public void deleteById(Long id) {
         log.info("Deleting Employee with ID {}", id);
 
-        if (employeeRepository.findById(id).isEmpty()) throw new RuntimeException("Employee not found!!!");
+        getById(id);
         employeeRepository.deleteById(id);
 
         log.info("Delete complete");
     }
 
-    public void update(Long companyId, Long id, EmployeeModel model) {
-        log.info("Updating Employee with ID {} in Company with ID {}", id, companyId);
+    public void update(Long companyId, Long employeeId, EmployeeModel model) {
+        log.info("Updating Employee with ID {} in Company with ID {}", employeeId, companyId);
 
-        Employee employee = employeeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found!!!"));
+        Employee employee = getById(employeeId);
         employee.setName(model.getName());
         employeeRepository.save(employee);
 
         log.info("Update complete");
+    }
+
+    public Employee getById(Long id) {
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Employee not found!!!"));
     }
 }

@@ -23,4 +23,12 @@ public record EmployeeMapper(CompanyRepository companyRepository) {
 
         return employeeDto;
     }
+
+    public EmployeeModel entityToModel(Employee employee) {
+        EmployeeModel employeeModel = new EmployeeModel();
+        employeeModel.setName(employee.getName());
+        employeeModel.setCompanyId(employee.getCompany().getId());
+
+        return employeeModel;
+    }
 }
