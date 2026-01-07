@@ -60,6 +60,7 @@ public class EmployeeController {
         return "redirect:/sb/work_schedule/api/sb/employee-list";
     }
 
+    @GetMapping("/employee/{id}/update")
     private String updateForm(@PathVariable Long id, Model model) {
         EmployeeModel employeeModel = mapper.entityToModel(service.getById(id));
         model.addAttribute("employee", employeeModel);
