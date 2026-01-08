@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
+@Entity
+@Table(name = "Weekend")
 public class Weekend {
 
     @Id

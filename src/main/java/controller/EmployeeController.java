@@ -26,7 +26,7 @@ public class EmployeeController {
             .orElseThrow().getId();
 
     @GetMapping("/employee-list")
-    private String employeeList(Model model) {
+    private String getEmployeeList(Model model) {
         model.addAttribute("employee-list", service.getAllEmployeesInCompany(sbCompanyIndex));
 
         return "employee/employee-list";

@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@Entity
+@Table(name = "Employees")
 public class Employee {
 
     @Id

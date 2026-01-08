@@ -8,7 +8,6 @@ import lombok.extern.log4j.Log4j2;
 import mapper.WeekendMapper;
 import model.WeekendModel;
 import org.springframework.stereotype.Service;
-import repository.EmployeeRepository;
 import repository.WeekendRepository;
 
 import java.util.List;
@@ -19,7 +18,7 @@ import java.util.List;
 public class WeekendService {
 
     private final WeekendRepository weekendRepository;
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeService employeeService;
     private final WeekendMapper mapper;
 
     public void create(WeekendModel model) {
@@ -30,11 +29,10 @@ public class WeekendService {
         log.info("Add weekend complete");
     }
 
-    public List<WeekendDto> getAllWeekendsForEmployee(Long employeeId) {
+    public List<WeekendDto> getEmployeeWeekendList(Long employeeId) {
         log.info("Search Weekends for Employee with ID {}", employeeId);
 
-        Employee employee = employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new RuntimeException("Employee not found!!!"));
+        Employee employee = employeeService.getById(employeeId);
         List<Weekend> weekends = employee.getWeekends();
 
         log.info("Weekends found");
@@ -46,9 +44,14 @@ public class WeekendService {
     public void deleteById(Long id) {
         log.info("Deleting weekend by ID {}", id);
 
-        if (weekendRepository.findById(id).isEmpty()) throw new RuntimeException("Weekend not found!!!");
+        hasWeekend(id);
         weekendRepository.deleteById(id);
 
         log.info("Delete complete");
+    }
+
+    private void hasWeekend(Long id) {
+        weekendRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Weekend not found!!!"));
     }
 }
