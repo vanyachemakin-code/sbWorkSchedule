@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Weekends Form</title>
+    <link rel="stylesheet" th:href="@{/styles/form-style.css}">
+</head>
+<body>
+<h1 th:text="'Weekends Form for ' + ${employeeName}">Weekends Form</h1>
+<form th:object="${weekend}"
+      th:action="${/work_schedule/api/sb/employee/{employeeId}/weekend/add(employeeId=${weekend.employeeId})}"
+      method="post">
+    <input type="hidden" th:field="*{id}">
+    <label>Date:</label>
+    <input type="text" th:field="*{date}">
+    <br>
+    <button type="submit" class="save-button">Save</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee List</title>
+    <link rel="stylesheet" th:href="@{/styles/list-style.css}">
+</head>
+<body>
+<h1>Employee List</h1>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Actions</th>
+    </tr>
+    <tr th:each="employee : ${employeeList}">
+        <td th:text="${employee.name}"></td>
+        <td class="actions-cell">
+            <div class="edit-delete-group">
+                <a th:href="@{/work_schedule/api/sb/employee/{id}/update(id=${employee.id})}"
+                   class="action-button small-button">Edit</a>
+
+                <form th:action="@{/work_schedule/api/sb/employee/{id}/delete(id=${employee.id})}"
+                      method="post" style="display:inline;">
+                    <button type="submit" class="action-button small-button">Delete</button>
+                </form>
+            </div>
+
+            <a th:href="@{/work_schedule/api/sb/employee/{employeeId}/weekend-list(employeeId=${employee.id})}"
+               class="action-button weekend-button">Weekends</a>
+        </td>
+    </tr>
+</table>
+
+<a th:href="@{/work_schedule/api/sb/employee/add}" class="main-button">
+    Add Employee
+</a>
+</body>
+</html>

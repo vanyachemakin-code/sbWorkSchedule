@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Weekends List</title>
+    <link rel="stylesheet" th:href="@{/styles/list-style.css}">
+</head>
+<body>
+<h1 th:text="'Weekend List for ' + ${employeeName}">Weekend List</h1>
+<table>
+    <tr>
+        <th>Date</th>
+    </tr>
+    <tr th:each="weekend : ${weekend-list}">
+        <td th:text="${weekend.date}"></td>
+    </tr>
+</table>
+<a th:href="@{/work_schedule/api/sb/employee/{employeeId}/weekend-list(employeeId=${weekend.employeeId})}"
+   class="main-button">
+    Add Weekend
+</a>
+
+<a th:href="@{/work_schedule/api/sb/employee-list}" class="main-button">
+    Back to Employee List
+</a>
+</body>
+</html>
+
