@@ -29,7 +29,7 @@ public class WeekendService {
         log.info("Add weekend complete");
     }
 
-    public List<WeekendDto> getEmployeeWeekendList(Long employeeId) {
+    public List<WeekendDto> getEmployeeWeekendList(String employeeId) {
         log.info("Search Weekends for Employee with ID {}", employeeId);
 
         Employee employee = employeeService.getById(employeeId);

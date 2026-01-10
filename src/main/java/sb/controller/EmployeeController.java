@@ -36,33 +36,34 @@ public class EmployeeController {
 
     @PostMapping("/employee/add")
     private String add(@ModelAttribute("employee")EmployeeModel model) {
+        model.setCompanyId(getCompanyIndex("SB"));
         service.create(model);
 
         return "redirect:/work_schedule/api/sb/employee-list";
     }
 
     @PostMapping("/employee/{id}/delete")
-    private String deleteById(@PathVariable Long id) {
+    private String deleteById(@PathVariable String id) {
         service.deleteById(id);
 
         return "redirect:/sb/work_schedule/api/sb/employee-list";
     }
 
     @PostMapping("/employee/{id}/update")
-    private String update(@PathVariable Long id, EmployeeModel model) {
+    private String update(@PathVariable String id, EmployeeModel model) {
         service.update(getCompanyIndex("SB"), id, model);
 
         return "redirect:/sb/work_schedule/api/sb/employee-list";
     }
 
     @GetMapping("/employee/{id}/update")
-    private String updateForm(@PathVariable Long id, Model model) {
+    private String updateForm(@PathVariable String id, Model model) {
         EmployeeModel employeeModel = mapper.entityToModel(service.getById(id));
         model.addAttribute("employee", employeeModel);
 
         return "employee/employee-form";
     }
-     private Long getCompanyIndex(String name) {
+     private String getCompanyIndex(String name) {
          return companyRepository.findAll()
                  .stream()
                  .filter(company -> company.getName().equals(name))

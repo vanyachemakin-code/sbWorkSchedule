@@ -6,12 +6,14 @@ import sb.entity.Employee;
 import sb.model.EmployeeModel;
 import sb.repository.CompanyRepository;
 
+import java.util.UUID;
+
 @Component
 public record EmployeeMapper(CompanyRepository companyRepository) {
 
     public Employee modelToEntity(EmployeeModel model) {
         Employee employee = new Employee();
-        employee.setId(model.getId());
+        employee.setId(UUID.randomUUID().toString());
         employee.setName(model.getName());
         employee.setCompany(companyRepository.findById(model.getCompanyId())
                 .orElseThrow(() -> new RuntimeException("Company not found!!!")));

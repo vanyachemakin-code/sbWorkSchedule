@@ -20,7 +20,7 @@ public class WeekendController {
     private final EmployeeService employeeService;
 
     @GetMapping("/{employeeId}/weekend-list")
-    private String getEmployeeWeekendList(@PathVariable Long employeeId, Model model) {
+    private String getEmployeeWeekendList(@PathVariable String employeeId, Model model) {
         model.addAttribute("weekendList", weekendService.getEmployeeWeekendList(employeeId));
 
         Employee employee = employeeService.getById(employeeId);
@@ -40,7 +40,7 @@ public class WeekendController {
     }
 
     @GetMapping("/{employeeId}/weekend/add")
-    private String addForm(@PathVariable Long employeeId, Model model) {
+    private String addForm(@PathVariable String employeeId, Model model) {
         model.addAttribute("weekend", new WeekendModel());
 
         Employee employee = employeeService.getById(employeeId);

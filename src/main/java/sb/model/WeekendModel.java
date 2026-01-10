@@ -6,5 +6,5 @@ import lombok.Data;
 public class WeekendModel {
 
     private String date;
-    private Long employeeId;
+    private String employeeId;
 }

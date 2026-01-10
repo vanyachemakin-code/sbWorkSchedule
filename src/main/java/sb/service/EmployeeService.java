@@ -30,7 +30,7 @@ public class EmployeeService {
         log.info("Add Employee complete");
     }
 
-    public List<EmployeeDto> getAllEmployeesInCompany(Long companyId) {
+    public List<EmployeeDto> getAllEmployeesInCompany(String companyId) {
         log.info("Search all Employees in Compony with ID {}", companyId);
 
         Company company = companyRepository.findById(companyId)
@@ -43,7 +43,7 @@ public class EmployeeService {
                 .toList();
     }
 
-    public void deleteById(Long id) {
+    public void deleteById(String id) {
         log.info("Deleting Employee with ID {}", id);
 
         getById(id);
@@ -52,7 +52,7 @@ public class EmployeeService {
         log.info("Delete complete");
     }
 
-    public void update(Long companyId, Long employeeId, EmployeeModel model) {
+    public void update(String companyId, String employeeId, EmployeeModel model) {
         log.info("Updating Employee with ID {} in Company with ID {}", employeeId, companyId);
 
         Employee employee = getById(employeeId);
@@ -62,7 +62,7 @@ public class EmployeeService {
         log.info("Update complete");
     }
 
-    public Employee getById(Long id) {
+    public Employee getById(String id) {
         return employeeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Employee not found!!!"));
     }
