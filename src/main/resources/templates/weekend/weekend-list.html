@@ -14,9 +14,8 @@
     <tr th:each="weekend : ${weekendList}">
         <td>
             <span th:text="${weekend.date}">[Date Placeholder]</span>
-            <form th:action="@{/work_schedule/api/sb/employee/{employeeId}/weekend/{id}/delete(
-                                employeeId=${employeeId},
-                                id=${weekend.id})}"
+            <form th:action="@{/work_schedule/api/{companyName}/employee/{employeeId}/weekend/{id}/delete
+            (companyName=${companyName},employeeId=${employeeId},id=${weekend.id})}"
                   method="post"
                   style="display:inline; margin-left: 10px;"> <!-- Добавил немного стиля для отступа -->
                 <button type="submit" class="action-button small-button">Delete</button>
@@ -24,12 +23,13 @@
         </td>
     </tr>
 </table>
-<a th:href="@{/work_schedule/api/sb/employee/{employeeId}/weekend/add(employeeId=${employeeId})}"
+<a th:href="@{/work_schedule/api/{companyName}/employee/{employeeId}/weekend/add
+(companyName=${companyName},employeeId=${employeeId})}"
    class="add-button">
     Add Weekend
 </a>
 
-<a th:href="@{/work_schedule/api/sb/employee-list}" class="main-button">
+<a th:href="@{/work_schedule/api/{companyName}/employee-list(companyName=${companyName})}" class="main-button">
     Back to Employee List
 </a>
 </body>

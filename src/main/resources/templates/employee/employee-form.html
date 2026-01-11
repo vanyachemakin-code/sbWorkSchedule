@@ -8,9 +8,9 @@
 <body>
 <h1>Employee Form</h1>
 <form th:object="${employee}"
-      th:action="${employee.id != null ?
-                  '/work_schedule/api/sb/employee/' + employee.id + '/update' :
-                  '/work_schedule/api/sb/employee/add'}"
+      th:action="@{${employee.id != null ?
+                  '/work_schedule/api/' + companyName + '/employee/' + employee.id + '/update' :
+                  '/work_schedule/api/' + companyName + '/employee/add'}}"
       method="post">
     <input type="hidden" th:field="*{id}">
     <label>Name:</label>

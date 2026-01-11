@@ -8,7 +8,8 @@
 <body>
 <h1 th:text="'Weekends Form for ' + ${employeeName}">Weekends Form</h1>
 <form th:object="${weekend}"
-      th:action="@{/work_schedule/api/sb/employee/{employeeId}/weekend/add(employeeId=${employeeId})}"
+      th:action="@{/work_schedule/api/{companyName}/employee/{employeeId}/weekend/add
+      (companyName=${companyName},employeeId=${employeeId})}"
       method="post">
     <label>Date:</label>
     <input type="text" th:field="*{date}">

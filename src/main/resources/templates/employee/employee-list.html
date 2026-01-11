@@ -17,29 +17,32 @@
             <span th:text="${employee.name}">[Employee Name Placeholder]</span>
 
             <div class="edit-delete-group" style="margin-top: 5px;">
-                <form th:action="@{/work_schedule/api/sb/employee/{id}/update(id=${employee.id})}"
-                method="post" style="display:inline;">
-                    <button type="submit" class="edit-button small-button">Edit</button>
-                </form>
+                <a th:href="@{/work_schedule/api/{companyName}/employee/{id}/update
+                (companyName=${companyName},id=${employee.id})}"
+                   class="edit-button small-button">
+                    Edit
+                </a>
 
-                <form th:action="@{/work_schedule/api/sb/employee/{id}/delete(id=${employee.id})}"
+                <form th:action="@{/work_schedule/api/{companyName}/employee/{id}/delete
+                (companyName=${companyName},id=${employee.id})}"
                       method="post" style="display:inline;">
                     <button type="submit" class="action-button small-button">Delete</button>
                 </form>
             </div>
         </td>
         <td class="actions-cell">
-            <a th:href="@{/work_schedule/api/sb/employee/{employeeId}/weekend-list(employeeId=${employee.id})}"
+            <a th:href="@{/work_schedule/api/{companyName}/employee/{employeeId}/weekend-list
+            (companyName=${companyName},employeeId=${employee.id})}"
                class="main-button weekend-button">Weekends</a>
         </td>
     </tr>
 </table>
 
 
-<a th:href="@{/work_schedule/api/sb/employee/add}" class="add-button">
+<a th:href="@{/work_schedule/api/{companyName}/employee/add(companyName=${companyName})}" class="add-button">
     Add Employee
 </a>
-<a th:href="@{/work_schedule/api/sb/schedule/generate}" class="main-button">
+<a th:href="@{/work_schedule/api/{companyName}/schedule/generate(companyName=${companyName})}" class="schedule-button">
     Schedule
 </a>
 </body>

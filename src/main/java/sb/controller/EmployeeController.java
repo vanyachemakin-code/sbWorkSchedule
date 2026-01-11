@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import sb.repository.CompanyRepository;
 import sb.service.EmployeeService;
 
+import java.text.MessageFormat;
+
 @Controller
-@RequestMapping("/work_schedule/api/sb")
+@RequestMapping("/work_schedule/api")
 @RequiredArgsConstructor
 @Log4j2
 public class EmployeeController {
@@ -21,52 +23,59 @@ public class EmployeeController {
     private final EmployeeMapper mapper;
     private final CompanyRepository companyRepository;
 
-    @GetMapping("/employee-list")
-    private String getEmployeeList(Model model) {
-        model.addAttribute("employeeList", service.getAllEmployeesInCompany(getCompanyId("SB")));
+    @GetMapping("/{companyName}/employee-list")
+    private String getEmployeeList(@PathVariable String companyName, Model model) {
+        model.addAttribute("employeeList", service.getAllEmployeesInCompany(getCompanyId(companyName)));
+        model.addAttribute("companyName", companyName);
 
         return "employee/employee-list";
     }
 
-    @GetMapping("/employee/add")
-    private String addForm(Model model) {
+    @GetMapping("/{companyName}/employee/add")
+    private String addForm(@PathVariable String companyName, Model model) {
         model.addAttribute("employee", new EmployeeModel());
-
+        model.addAttribute("companyName", companyName);
         return "employee/employee-form";
     }
 
-    @PostMapping("/employee/add")
-    private String add(@ModelAttribute("employee")EmployeeModel model) {
-        model.setCompanyId(getCompanyId("SB"));
+    @PostMapping("/{companyName}/employee/add")
+    private String add(@PathVariable String companyName,
+                       @ModelAttribute("employee")EmployeeModel model) {
+        model.setCompanyId(getCompanyId(companyName));
         service.create(model);
 
-        return "redirect:/work_schedule/api/sb/employee-list";
+        return MessageFormat.format("redirect:/work_schedule/api/{0}/employee-list", companyName);
     }
 
-    @PostMapping("/employee/{id}/delete")
-    private String deleteById(@PathVariable String id) {
+    @PostMapping("/{companyName}/employee/{id}/delete")
+    private String deleteById(@PathVariable String companyName,
+                              @PathVariable String id) {
         service.deleteById(id);
 
-        return "redirect:/work_schedule/api/sb/employee-list";
+        return MessageFormat.format("redirect:/work_schedule/api/{0}/employee-list", companyName);
     }
 
-    @PostMapping("/employee/{id}/update")
-    private String update(@PathVariable String id, EmployeeModel model) {
-        service.update(getCompanyId("SB"), id, model);
+    @PostMapping("/{companyName}/employee/{id}/update")
+    private String update(@PathVariable String companyName,
+                          @PathVariable String id,
+                          @ModelAttribute("employee") EmployeeModel model) {
+        service.update(getCompanyId(companyName), id, model);
 
-        return "redirect:/work_schedule/api/sb/employee-list";
+        return MessageFormat.format("redirect:/work_schedule/api/{0}/employee-list", companyName);
     }
 
-    @GetMapping("/employee/{id}/update")
-    private String updateForm(@PathVariable String id, Model model) {
+    @GetMapping("/{companyName}/employee/{id}/update")
+    private String updateForm(@PathVariable String companyName,
+                              @PathVariable String id, Model model) {
         EmployeeModel employeeModel = mapper.entityToModel(service.getById(id));
         model.addAttribute("employee", employeeModel);
+        model.addAttribute("companyName", companyName);
 
         return "employee/employee-form";
     }
 
     private String getCompanyId(String name) {
-        return companyRepository.findByName(name)
+        return companyRepository.findByName(name.toUpperCase())
                 .orElseThrow(CompanyNotFoundException::new)
                 .getId();
     }
