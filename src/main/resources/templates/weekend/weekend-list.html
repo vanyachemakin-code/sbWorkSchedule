@@ -12,11 +12,20 @@
         <th>Date</th>
     </tr>
     <tr th:each="weekend : ${weekendList}">
-        <td th:text="${weekend.date}"></td>
+        <td>
+            <span th:text="${weekend.date}">[Date Placeholder]</span>
+            <form th:action="@{/work_schedule/api/sb/employee/{employeeId}/weekend/{id}/delete(
+                                employeeId=${employeeId},
+                                id=${weekend.id})}"
+                  method="post"
+                  style="display:inline; margin-left: 10px;"> <!-- Добавил немного стиля для отступа -->
+                <button type="submit" class="action-button small-button">Delete</button>
+            </form>
+        </td>
     </tr>
 </table>
-<a th:href="@{/work_schedule/api/sb/employee/{employeeId}/weekend-list(employeeId=${weekend.employeeId})}"
-   class="main-button">
+<a th:href="@{/work_schedule/api/sb/employee/{employeeId}/weekend/add(employeeId=${employeeId})}"
+   class="add-button">
     Add Weekend
 </a>
 

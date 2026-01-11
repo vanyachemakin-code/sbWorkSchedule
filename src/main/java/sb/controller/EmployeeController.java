@@ -46,14 +46,14 @@ public class EmployeeController {
     private String deleteById(@PathVariable String id) {
         service.deleteById(id);
 
-        return "redirect:/sb/work_schedule/api/sb/employee-list";
+        return "redirect:/work_schedule/api/sb/employee-list";
     }
 
     @PostMapping("/employee/{id}/update")
     private String update(@PathVariable String id, EmployeeModel model) {
         service.update(getCompanyIndex("SB"), id, model);
 
-        return "redirect:/sb/work_schedule/api/sb/employee-list";
+        return "redirect:/work_schedule/api/sb/employee-list";
     }
 
     @GetMapping("/employee/{id}/update")

@@ -25,12 +25,13 @@ public class WeekendController {
 
         Employee employee = employeeService.getById(employeeId);
         model.addAttribute("employeeName", employee.getName());
+        model.addAttribute("employeeId", employeeId);
 
         return "weekend/weekend-list";
     }
 
     @PostMapping("/{employeeId}/weekend/add")
-    private String add(@PathVariable Long employeeId,
+    private String add(@PathVariable String employeeId,
                        @ModelAttribute("weekend") WeekendModel model) {
         weekendService.create(model);
 
@@ -45,12 +46,13 @@ public class WeekendController {
 
         Employee employee = employeeService.getById(employeeId);
         model.addAttribute("employeeName", employee.getName());
+        model.addAttribute("employeeId", employee.getId());
 
-        return "weekend-form";
+        return "weekend/weekend-form";
     }
 
     @PostMapping("/{employeeId}/weekend/{id}/delete")
-    private String deleteById(@PathVariable Long employeeId,
+    private String deleteById(@PathVariable String employeeId,
                               @PathVariable Long id) {
         weekendService.deleteById(id);
 
