@@ -1,4 +1,4 @@
-package sb.mapper;
+package sb.utils.mapper;
 
 import sb.auth.Account;
 import sb.auth.AccountModel;

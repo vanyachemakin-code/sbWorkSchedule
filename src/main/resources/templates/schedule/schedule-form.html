@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Schedule Form</title>
+    <link rel="stylesheet" th:href="@{/styles/form-style.css}">
+</head>
+<body>
+<h1>Schedule Info</h1>
+<form th:object="${scheduleModel}"
+      th:action="@{/work_schedule/api/{companyName}/schedule/generate(companyName=${companyName})}"
+      method="post">
+    <label for="inputMonth">Month:</label>
+    <input type="month" id="inputMonth" th:field="*{month}">
+    <br>
+    <label for="inputPublic">Veranda</label>
+    <input type="checkbox" id="inputPublic" th:field="*{verandaWork}">
+    <br>
+
+    <button type="submit" class="save-button">Generate</button>
+</form>
+</body>
+</html>

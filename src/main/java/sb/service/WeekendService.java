@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import sb.exception.WeekendDateException;
 import sb.exception.WeekendNotFoundException;
-import sb.mapper.WeekendMapper;
+import sb.utils.mapper.WeekendMapper;
 import sb.model.WeekendModel;
 import org.springframework.stereotype.Service;
 import sb.repository.WeekendRepository;

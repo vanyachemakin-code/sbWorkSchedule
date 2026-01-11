@@ -28,7 +28,8 @@ label {
     color: #555;
 }
 
-input[type="text"] {
+input[type="text"]
+input[type="month"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;

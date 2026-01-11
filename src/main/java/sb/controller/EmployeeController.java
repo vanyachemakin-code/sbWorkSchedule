@@ -2,7 +2,8 @@ package sb.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import sb.mapper.EmployeeMapper;
+import sb.exception.CompanyNotFoundException;
+import sb.utils.mapper.EmployeeMapper;
 import sb.model.EmployeeModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +23,7 @@ public class EmployeeController {
 
     @GetMapping("/employee-list")
     private String getEmployeeList(Model model) {
-        model.addAttribute("employeeList", service.getAllEmployeesInCompany(getCompanyIndex("SB")));
+        model.addAttribute("employeeList", service.getAllEmployeesInCompany(getCompanyId("SB")));
 
         return "employee/employee-list";
     }
@@ -36,7 +37,7 @@ public class EmployeeController {
 
     @PostMapping("/employee/add")
     private String add(@ModelAttribute("employee")EmployeeModel model) {
-        model.setCompanyId(getCompanyIndex("SB"));
+        model.setCompanyId(getCompanyId("SB"));
         service.create(model);
 
         return "redirect:/work_schedule/api/sb/employee-list";
@@ -51,7 +52,7 @@ public class EmployeeController {
 
     @PostMapping("/employee/{id}/update")
     private String update(@PathVariable String id, EmployeeModel model) {
-        service.update(getCompanyIndex("SB"), id, model);
+        service.update(getCompanyId("SB"), id, model);
 
         return "redirect:/work_schedule/api/sb/employee-list";
     }
@@ -63,11 +64,10 @@ public class EmployeeController {
 
         return "employee/employee-form";
     }
-     private String getCompanyIndex(String name) {
-         return companyRepository.findAll()
-                 .stream()
-                 .filter(company -> company.getName().equals(name))
-                 .findFirst()
-                 .orElseThrow().getId();
-     }
+
+    private String getCompanyId(String name) {
+        return companyRepository.findByName(name)
+                .orElseThrow(CompanyNotFoundException::new)
+                .getId();
+    }
 }

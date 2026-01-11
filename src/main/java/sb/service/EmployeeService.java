@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import sb.exception.EmployeeNameException;
 import sb.exception.EmployeeNotFoundException;
-import sb.mapper.EmployeeMapper;
+import sb.utils.mapper.EmployeeMapper;
 import sb.model.EmployeeModel;
 import org.springframework.stereotype.Service;
 import sb.repository.CompanyRepository;

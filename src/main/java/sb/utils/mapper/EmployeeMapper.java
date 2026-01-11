@@ -1,4 +1,4 @@
-package sb.mapper;
+package sb.utils.mapper;
 
 import org.springframework.stereotype.Component;
 import sb.dto.EmployeeDto;
