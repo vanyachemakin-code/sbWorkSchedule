@@ -5,6 +5,8 @@ import sb.entity.Employee;
 import sb.entity.Weekend;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import sb.exception.WeekendDateException;
+import sb.exception.WeekendNotFoundException;
 import sb.mapper.WeekendMapper;
 import sb.model.WeekendModel;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,9 @@ public class WeekendService {
 
     public void create(WeekendModel model) {
         log.info("Adding weekend for Employee with ID {}", model.getEmployeeId());
+
+        if (model.getDate().isEmpty() ||
+                weekendRepository.existsByDate(model.getDate())) throw new WeekendDateException();
 
         weekendRepository.save(mapper.modelToEntity(model));
 
@@ -52,6 +57,6 @@ public class WeekendService {
 
     private void hasWeekend(Long id) {
         weekendRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Weekend not found!!!"));
+                .orElseThrow(WeekendNotFoundException::new);
     }
 }

@@ -5,6 +5,8 @@ import sb.entity.Company;
 import sb.entity.Employee;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import sb.exception.EmployeeNameException;
+import sb.exception.EmployeeNotFoundException;
 import sb.mapper.EmployeeMapper;
 import sb.model.EmployeeModel;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,9 @@ public class EmployeeService {
 
     public void create(EmployeeModel model) {
         log.info("Adding Employee with name - {}", model.getName());
+
+        if (model.getName().isEmpty() ||
+                employeeRepository.existsByName(model.getName())) throw new EmployeeNameException();
 
         employeeRepository.save(mapper.modelToEntity(model));
 
@@ -64,6 +69,6 @@ public class EmployeeService {
 
     public Employee getById(String id) {
         return employeeRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Employee not found!!!"));
+                .orElseThrow(EmployeeNotFoundException::new);
     }
 }
