@@ -24,6 +24,15 @@ public class WeekendService {
     private final WeekendMapper mapper;
 
     public void create(WeekendModel model) {
+        log.info("Converting date format");
+
+        String rawDate = model.getDate();
+        if (rawDate != null && !rawDate.isEmpty()) {
+            int dayOfMonth = Integer.parseInt(rawDate);
+            String standardizedDate = String.format("%02d", dayOfMonth);
+            model.setDate(standardizedDate);
+        }
+
         log.info("Adding weekend for Employee with ID {}", model.getEmployeeId());
 
         if (model.getDate().isEmpty() ||

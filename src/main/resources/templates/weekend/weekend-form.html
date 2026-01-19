@@ -11,8 +11,8 @@
       th:action="@{/work_schedule/api/{companyName}/employee/{employeeId}/weekend/add
       (companyName=${companyName},employeeId=${employeeId})}"
       method="post">
-    <label>Date:</label>
-    <input type="text" th:field="*{date}">
+    <label for="dateInput">Date:</label>
+    <input type="number" id="dateInput" th:field="*{date}" min="1" max="31" placeholder="Введите день месяца (например, 01)">
     <br>
     <button type="submit" class="save-button">Save</button>
 </form>

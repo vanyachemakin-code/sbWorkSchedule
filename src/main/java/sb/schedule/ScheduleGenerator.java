@@ -1,11 +1,8 @@
 package sb.schedule;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import sb.dto.CompanyDto;
 import sb.dto.EmployeeDto;
-import sb.exception.EmployeeNotFoundException;
-import sb.exception.WeekendNotFoundException;
 import sb.utils.HolidayChecker;
 
 import java.time.LocalDate;
@@ -23,9 +20,15 @@ public class ScheduleGenerator {
     private final boolean verandaWork;
 
     private int getEmployeeMonthShifts() {
+        int monthShifts = 0;
+
+        for (LocalDate day: HolidayChecker.getDays(month)) {
+            if (HolidayChecker.isWeekend(day, verandaWork)) monthShifts += companyDto.getMaxEmployeePerDay();
+            else monthShifts += companyDto.getMinEmployeePerDay();
+        }
+
         return Math.round(
-                (float) (HolidayChecker.getDaysInMonth(month) * companyDto.getMaxEmployeePerDay())
-                        / companyDto.getEmployees().size()
+                (float) monthShifts / companyDto.getEmployees().size()
         );
     }
 
@@ -44,44 +47,51 @@ public class ScheduleGenerator {
     public List<ScheduleDto> generate() {
         setEmployeeMonthShifts();
         setEmployeeCountPerDay();
-        List<EmployeeDto> employees = companyDto.getEmployees();
-        Set<LocalDate> days = employeeCountPerDay.keySet();
+
+        List<EmployeeDto> employees = new ArrayList<>(companyDto.getEmployees());
+        List<LocalDate> days = new ArrayList<>(employeeCountPerDay.keySet());
+        days.sort(Comparator.naturalOrder());
         List<ScheduleDto> schedule = new ArrayList<>();
 
-        point:
         for (LocalDate day: days) {
-            String dayStr = day.format(DateTimeFormatter.ofPattern("dd/MM"));
+            String dayStrForSchedule = day.format(DateTimeFormatter.ofPattern("dd/MM"));
             List<EmployeeDto> employeePerDay = new ArrayList<>();
-            for (EmployeeDto employee: employees) {
-                if (canWork(employee, dayStr)) {
+            Collections.shuffle(employees);
+
+            for (EmployeeDto employee : employees) {
+                if (canWork(employee, day)) {
                     employeePerDay.add(employee);
                     employee.setShiftsInARow(employee.getShiftsInARow() + 1);
+                    employee.setWorkedToday(true);
                     employee.setMonthShifts(employee.getMonthShifts() - 1);
+                } else {
+                    employee.setShiftsInARow(0);
+                    employee.setWorkedToday(false);
                 }
-                if (employee.getShiftsInARow() == 4) employee.setShiftsInARow(0);
 
                 if (employeePerDay.size() == employeeCountPerDay.get(day)) {
-                    schedule.add(
-                            new ScheduleDto(dayStr, employeePerDay)
-                    );
-                    continue point;
+                    schedule.add(new ScheduleDto(dayStrForSchedule, employeePerDay));
+                    break;
                 }
             }
         }
         return schedule;
     }
 
-    private boolean canWork(EmployeeDto employee, String day) {
-        if (employee.getWeekendDtoList().isEmpty()) return employee.getShiftsInARow() < 3 &&
-                employee.getMonthShifts() > 0;
+    private boolean canWork(EmployeeDto employee, LocalDate day) {
+        if (employee.getMonthShifts() <= 0) return false;
 
-        return employee.getShiftsInARow() < 3 &&
-                employee.getMonthShifts() > 0 &&
-                !employee.getWeekendDtoList()
-                        .stream()
-                        .filter(weekendDto -> weekendDto.getDate().equals(day))
-                        .findFirst()
-                        .orElseThrow(WeekendNotFoundException::new)
-                        .isItWeekend(day);
+        if (employee.getShiftsInARow() >= 3) return false;
+
+        if (!employee.getWeekendDtoList().isEmpty()) {
+            boolean isScheduledWeekend = employee.getWeekendDtoList().stream()
+                    .anyMatch(weekendDto -> {
+                        String dayOfMonthStr = day.format(DateTimeFormatter.ofPattern("dd"));
+                        return weekendDto.isItWeekend(dayOfMonthStr);
+                    });
+
+            return !isScheduledWeekend;
+        }
+        return true;
     }
 }

@@ -9,7 +9,7 @@ import sb.repository.CompanyRepository;
 import java.util.UUID;
 
 @Component
-public record EmployeeMapper(CompanyRepository companyRepository) {
+public record EmployeeMapper(CompanyRepository companyRepository, WeekendMapper weekendMapper) {
 
     public Employee modelToEntity(EmployeeModel model) {
         Employee employee = new Employee();
@@ -25,6 +25,10 @@ public record EmployeeMapper(CompanyRepository companyRepository) {
         EmployeeDto employeeDto = new EmployeeDto();
         employeeDto.setId(employee.getId());
         employeeDto.setName(employee.getName());
+        employeeDto.setWeekendDtoList(employee.getWeekends()
+                .stream()
+                .map(weekendMapper::entityToDto)
+                .toList());
 
         return employeeDto;
     }

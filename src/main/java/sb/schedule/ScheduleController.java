@@ -6,7 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import sb.dto.EmployeeDto;
 import sb.entity.Company;
+import sb.entity.Employee;
 import sb.exception.CompanyNotFoundException;
 import sb.repository.CompanyRepository;
 import sb.utils.mapper.CompanyMapper;
@@ -46,7 +48,6 @@ public class ScheduleController {
                 scheduleModel.getMonth().toUpperCase(),
                 company.getName(),
                 scheduleModel.isVerandaWork());
-
         log.info("Trying generate Work Schedule");
 
         List<ScheduleDto> generatedSchedule = scheduleGenerator.generate();

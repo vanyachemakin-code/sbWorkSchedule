@@ -13,4 +13,5 @@ public class EmployeeDto {
     private List<WeekendDto> weekendDtoList = new ArrayList<>();
     private int shiftsInARow = 0;
     private int monthShifts;
+    private boolean workedToday;
 }
