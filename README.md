@@ -5,4 +5,4 @@
   * takes into account the increase in restaurant staffing while the summer veranda is working;
 * add Employees to Company;
 * add primary Weekends;
-* have authentication for access to application (# in progress)
+* have authentication for access to application (in progress)
