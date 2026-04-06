@@ -1,4 +1,4 @@
-package sb.model;
+package sb.dto.model;
 
 import lombok.Data;
 

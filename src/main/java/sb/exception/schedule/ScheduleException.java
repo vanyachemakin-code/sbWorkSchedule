@@ -1,4 +1,4 @@
-package sb.exception;
+package sb.exception.schedule;
 
 public class ScheduleException extends RuntimeException {
     public ScheduleException() {

@@ -9,13 +9,7 @@ public class AccountMapper {
         Account account = new Account();
         account.setLogin(model.getLogin());
         account.setPassword(model.getPassword());
-        return account;
-    }
 
-    public AccountModel entityToModel(Account account) {
-        AccountModel accountModel = new AccountModel();
-        accountModel.setLogin(account.getLogin());
-        accountModel.setPassword(account.getPassword());
-        return accountModel;
+        return account;
     }
 }

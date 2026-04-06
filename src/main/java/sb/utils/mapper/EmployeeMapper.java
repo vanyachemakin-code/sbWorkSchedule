@@ -3,7 +3,7 @@ package sb.utils.mapper;
 import org.springframework.stereotype.Component;
 import sb.dto.EmployeeDto;
 import sb.entity.Employee;
-import sb.model.EmployeeModel;
+import sb.dto.model.EmployeeModel;
 import sb.repository.CompanyRepository;
 
 import java.util.UUID;
@@ -35,7 +35,6 @@ public record EmployeeMapper(CompanyRepository companyRepository, WeekendMapper 
 
     public EmployeeModel entityToModel(Employee employee) {
         EmployeeModel employeeModel = new EmployeeModel();
-        employeeModel.setId(employee.getId());
         employeeModel.setName(employee.getName());
         employeeModel.setCompanyId(employee.getCompany().getId());
 

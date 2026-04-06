@@ -1,4 +1,4 @@
-package sb.exception;
+package sb.exception.weekend;
 
 public class WeekendNotFoundException extends RuntimeException {
     public WeekendNotFoundException() {

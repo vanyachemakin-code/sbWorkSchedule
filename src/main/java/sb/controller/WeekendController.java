@@ -2,7 +2,7 @@ package sb.controller;
 
 import sb.entity.Employee;
 import lombok.RequiredArgsConstructor;
-import sb.model.WeekendModel;
+import sb.dto.model.WeekendModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -35,8 +35,8 @@ public class WeekendController {
     @PostMapping("/{companyName}/employee/{employeeId}/weekend/add")
     private String add(@PathVariable String companyName,
                        @PathVariable String employeeId,
-                       @ModelAttribute("weekend") WeekendModel model) {
-        weekendService.create(model);
+                       @ModelAttribute("weekend") WeekendModel weekendModel) {
+        weekendService.create(weekendModel);
 
         return MessageFormat.format(
                 "redirect:/work_schedule/api/{0}/employee/{1}/weekend-list", companyName, employeeId

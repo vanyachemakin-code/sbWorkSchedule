@@ -5,10 +5,10 @@ import sb.entity.Employee;
 import sb.entity.Weekend;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import sb.exception.WeekendDateException;
-import sb.exception.WeekendNotFoundException;
+import sb.exception.weekend.WeekendDateException;
+import sb.exception.weekend.WeekendNotFoundException;
 import sb.utils.mapper.WeekendMapper;
-import sb.model.WeekendModel;
+import sb.dto.model.WeekendModel;
 import org.springframework.stereotype.Service;
 import sb.repository.WeekendRepository;
 
@@ -58,14 +58,15 @@ public class WeekendService {
     public void deleteById(Long id) {
         log.info("Deleting weekend by ID {}", id);
 
-        hasWeekend(id);
-        weekendRepository.deleteById(id);
+        weekendRepository.delete(getById(id));
 
         log.info("Delete complete");
     }
 
-    private void hasWeekend(Long id) {
-        weekendRepository.findById(id)
+    private Weekend getById(Long id) {
+        log.info("Searching Weekend with ID {}", id);
+
+        return weekendRepository.findById(id)
                 .orElseThrow(WeekendNotFoundException::new);
     }
 }

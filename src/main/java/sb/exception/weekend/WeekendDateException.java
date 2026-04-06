@@ -1,7 +1,7 @@
-package sb.exception;
+package sb.exception.weekend;
 
 public class WeekendDateException extends RuntimeException {
     public WeekendDateException() {
-        super("Date Exception!!!");
+        super("Date is already taken!!!");
     }
 }

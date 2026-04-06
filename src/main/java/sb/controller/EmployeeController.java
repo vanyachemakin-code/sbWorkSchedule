@@ -2,9 +2,9 @@ package sb.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import sb.exception.CompanyNotFoundException;
+import sb.exception.company.CompanyNotFoundException;
 import sb.utils.mapper.EmployeeMapper;
-import sb.model.EmployeeModel;
+import sb.dto.model.EmployeeModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +40,7 @@ public class EmployeeController {
 
     @PostMapping("/{companyName}/employee/add")
     private String add(@PathVariable String companyName,
-                       @ModelAttribute("employee")EmployeeModel model) {
+                       @ModelAttribute("employee")EmployeeModel employeeModel) {
         model.setCompanyId(getCompanyId(companyName));
         service.create(model);
 
@@ -58,8 +58,8 @@ public class EmployeeController {
     @PostMapping("/{companyName}/employee/{id}/update")
     private String update(@PathVariable String companyName,
                           @PathVariable String id,
-                          @ModelAttribute("employee") EmployeeModel model) {
-        service.update(getCompanyId(companyName), id, model);
+                          @ModelAttribute("employee") EmployeeModel employeeModel) {
+        service.update(getCompanyId(companyName), id, employeeModel);
 
         return MessageFormat.format("redirect:/work_schedule/api/{0}/employee-list", companyName);
     }

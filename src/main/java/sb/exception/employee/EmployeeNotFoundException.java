@@ -1,4 +1,4 @@
-package sb.exception;
+package sb.exception.employee;
 
 public class EmployeeNotFoundException extends RuntimeException {
     public EmployeeNotFoundException() {

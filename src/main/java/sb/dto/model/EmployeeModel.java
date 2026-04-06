@@ -1,11 +1,10 @@
-package sb.model;
+package sb.dto.model;
 
 import lombok.Data;
 
 @Data
 public class EmployeeModel {
 
-    private String id;
     private String name;
     private String companyId;
 }

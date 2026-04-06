@@ -5,10 +5,10 @@ import sb.entity.Company;
 import sb.entity.Employee;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import sb.exception.EmployeeNameException;
-import sb.exception.EmployeeNotFoundException;
+import sb.exception.employee.EmployeeNameException;
+import sb.exception.employee.EmployeeNotFoundException;
 import sb.utils.mapper.EmployeeMapper;
-import sb.model.EmployeeModel;
+import sb.dto.model.EmployeeModel;
 import org.springframework.stereotype.Service;
 import sb.repository.CompanyRepository;
 import sb.repository.EmployeeRepository;
@@ -42,7 +42,9 @@ public class EmployeeService {
                 .orElseThrow(() -> new RuntimeException("Company not found!!!"));
         List<Employee> employees = company.getEmployees();
 
-        log.info("Employees found");
+        if (employees.isEmpty()) log.info("Employee list is empty");
+        else log.info("Employees found");
+
         return employees.stream()
                 .map(mapper::entityToDto)
                 .toList();
@@ -51,8 +53,7 @@ public class EmployeeService {
     public void deleteById(String id) {
         log.info("Deleting Employee with ID {}", id);
 
-        getById(id);
-        employeeRepository.deleteById(id);
+        employeeRepository.delete(getById(id));
 
         log.info("Delete complete");
     }
@@ -62,12 +63,15 @@ public class EmployeeService {
 
         Employee employee = getById(employeeId);
         employee.setName(model.getName());
+
         employeeRepository.save(employee);
 
         log.info("Update complete");
     }
 
     public Employee getById(String id) {
+        log.info("Searching Employee with ID {}", id);
+
         return employeeRepository.findById(id)
                 .orElseThrow(EmployeeNotFoundException::new);
     }

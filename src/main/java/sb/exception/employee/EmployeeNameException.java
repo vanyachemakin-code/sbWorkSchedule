@@ -1,7 +1,7 @@
-package sb.exception;
+package sb.exception.employee;
 
 public class EmployeeNameException extends RuntimeException {
     public EmployeeNameException() {
-        super("Name Exception!!!");
+        super("Name is already taken!!!");
     }
 }

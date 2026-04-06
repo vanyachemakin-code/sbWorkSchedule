@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 public class CompanyDto {
 
+    private String id;
     private String name;
     private int minEmployeePerDay;
     private int maxEmployeePerDay;

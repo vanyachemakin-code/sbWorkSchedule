@@ -3,7 +3,7 @@ package sb.utils.mapper;
 import org.springframework.stereotype.Component;
 import sb.dto.WeekendDto;
 import sb.entity.Weekend;
-import sb.model.WeekendModel;
+import sb.dto.model.WeekendModel;
 import sb.repository.EmployeeRepository;
 
 @Component
